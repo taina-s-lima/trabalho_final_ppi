@@ -5,13 +5,11 @@ export default class Imoveldb {
 
     async gravar(imovel){
         if(imovel instanceof Imovel){
-            const sql = "INSERT INTO imovel (imo_id, imo_titulo, imo_tipo, imo_valor, pes_cpf) VALUES (?, ?, ?, ?, ?)";
+            const sql = "INSERT INTO imovel (imo_titulo, imo_tipo, imo_valor) VALUES (?, ?, ?)";
             const parametros = [
-                imovel.id,
                 imovel.titulo,
                 imovel.tipo,
-                imovel.valor,
-                imovel.proprietarioCpf
+                imovel.valor
             ];
             const conn = await conexao();   
             const resultado = await conn.execute(sql, parametros);
