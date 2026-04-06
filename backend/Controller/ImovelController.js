@@ -12,7 +12,7 @@ export default class ImovelController {
 
             if (imo_titulo && imo_tipo && imo_valor) {
 
-                const imovelModel = new Imovel(imo_titulo, imo_tipo, imo_valor);
+                const imovelModel = new Imovel(0, imo_titulo, imo_tipo, imo_valor, '');
                 imovelModel.gravar(imovelModel).then((result) => {
 
                     res.status(201).json({
