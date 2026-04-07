@@ -48,8 +48,13 @@ export default class Imoveldb {
         let sql = '';
         let parametros = [];
 
-        sql = "SELECT * FROM imovel WHERE imo_titulo LIKE ?";
-        parametros = [`%${termo}%`];
+        if (termo) {
+            sql = "SELECT * FROM imovel WHERE imo_id = ?";
+        } else {
+            sql = "SELECT * FROM imovel";
+        }
+        
+        parametros = [termo];
 
         const conn = await conexao();
         const resultado = await conn.query(sql, parametros);

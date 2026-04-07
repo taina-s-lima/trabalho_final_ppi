@@ -105,13 +105,13 @@ export default class ImovelController {
             .then((ListaImoveis) => {
                 res.status(200).json({
                     status: true,
-                    message: "Pessoa consultada com sucesso",
-                    pessoas: ListaPessoas
+                    message: "Imóvel consultado com sucesso",
+                    imoveis: ListaImoveis
                 });
             })
             .catch((error) => {
                 res.status(500).json({
-                    error: 'Erro ao consultar pessoa',
+                    error: 'Erro ao consultar imovel',
                     details: error.message
                 });
             });
