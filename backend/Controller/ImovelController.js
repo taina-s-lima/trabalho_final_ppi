@@ -6,13 +6,14 @@ export default class ImovelController {
     gravar(req, res) {
         if (req.method === 'POST' && req.is('application/json')) {
 
-            const imo_titulo = req.body.imo_titulo;
-            const imo_tipo = req.body.imo_tipo;
-            const imo_valor = req.body.imo_valor;
+            const titulo = req.body.titulo;
+            const tipo = req.body.tipo;
+            const valor = req.body.valor;
+            
 
-            if (imo_titulo && imo_tipo && imo_valor) {
+            if (titulo && tipo && valor) {
 
-                const imovelModel = new Imovel(0, imo_titulo, imo_tipo, imo_valor, '');
+                const imovelModel = new Imovel(0, titulo, tipo, valor);
                 imovelModel.gravar(imovelModel).then((result) => {
 
                     res.status(201).json({
@@ -35,14 +36,14 @@ export default class ImovelController {
 
     editar(req, res) {
         if ((req.method === 'PUT' || req.method === 'PATCH') && req.is('application/json')) {
-            const imo_id = req.body.imo_id;
-            const imo_titulo = req.body.imo_titulo;
-            const imo_tipo = req.body.imo_tipo;
-            const imo_valor = req.body.imo_valor;
-            const pes_cpf = req.body.pes_cpf;
+            const id = req.params.id;
+            const imo_titulo = req.body.titulo;
+            const imo_tipo = req.body.tipo;
+            const imo_valor = req.body.valor;
+            const pes_cpf = req.body.cpf;
 
-            if (imo_id && imo_titulo && imo_tipo && imo_valor && pes_cpf) {
-                const imovelModel = new Imovel(imo_id, imo_titulo, imo_tipo, imo_valor, pes_cpf);
+            if (id > 0 && imo_titulo && imo_tipo && imo_valor && pes_cpf) {
+                const imovelModel = new Imovel(id, imo_titulo, imo_tipo, imo_valor, pes_cpf);
                 imovelModel.atualizar().then((result) => {
                     res.status(200).json({
                         "status": true,
@@ -64,8 +65,7 @@ export default class ImovelController {
 
     excluir(req, res) {
         if (req.method === 'DELETE') {
-            const imo_id = req.params.imo_id;
-            console.log(imo_id);
+            const imo_id = req.params.id;
             if (imo_id > 0) {
                 const imovelModel = new Imovel(imo_id);
                 imovelModel.excluir().then((result) => {
@@ -91,7 +91,7 @@ export default class ImovelController {
 
     consultar(req, res) {
 
-        const id = req.params.imo_id;
+        const id = req.params.id;
         let termo;
 
         if (!isNaN(id)) {

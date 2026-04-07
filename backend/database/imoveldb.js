@@ -3,57 +3,39 @@ import conexao from "./conexao.js";
 
 export default class Imoveldb {
 
-    async gravar(imovel){
-        if(imovel instanceof Imovel){
+    async gravar(imovel) {
+        if (imovel instanceof Imovel) {
             const sql = "INSERT INTO imovel (imo_titulo, imo_tipo, imo_valor) VALUES (?, ?, ?)";
             const parametros = [
-                imovel.titulo,
-                imovel.tipo,
-                imovel.valor
+                imovel.imo_titulo,
+                imovel.imo_tipo,
+                imovel.imo_valor
             ];
-            const conn = await conexao();   
+            const conn = await conexao();
             const resultado = await conn.execute(sql, parametros);
-            imovel.id = resultado[0].insertId;
+            imovel.imo_id = resultado[0].insertId;
             conn.release();
         }
     }
 
-    async atualizar(imovel){
-        if(imovel instanceof Imovel){
+    async atualizar(imovel) {
+        if (imovel instanceof Imovel) {
             const sql = "UPDATE imovel SET imo_titulo = ?, imo_tipo = ?, imo_valor = ?, pes_cpf = ? WHERE imo_id = ?";
             const parametros = [
-                imovel.titulo,
-                imovel.tipo,
-                imovel.valor,
-                imovel.proprietarioCpf,
-                imovel.id
+                imovel.imo_titulo,
+                imovel.imo_tipo,
+                imovel.imo_valor,
+                imovel.pes_cpf ?? null,
+                imovel.imo_id
             ];
-            const conn = await conexao();   
-            const resultado = await conn.execute(sql, parametros);
-            imovel.id = resultado[0].insertId;
+            const conn = await conexao();
+            await conn.execute(sql, parametros);
             conn.release();
         }
     }
 
-    async atualizar(imovel){
-        if(imovel instanceof Imovel){
-            const sql = "UPDATE imovel SET imo_titulo = ?, imo_tipo = ?, imo_valor = ?, pes_cpf = ? WHERE imo_id = ?";
-            const parametros = [
-                imovel.titulo,
-                imovel.tipo,
-                imovel.valor,
-                imovel.proprietarioCpf,
-                imovel.id
-            ];
-            const conn = await conexao();   
-            const resultado = await conn.execute(sql, parametros);
-            imovel.id = resultado[0].insertId;
-            conn.release();
-        }
-    }
-
-    async excluir(id){
-        if(id){
+    async excluir(id) {
+        if (id) {
             const sql = "DELETE FROM imovel WHERE imo_id = ?";
             const parametros = [id];
             const conn = await conexao();
@@ -62,7 +44,7 @@ export default class Imoveldb {
         }
     }
 
-    async consultar(termo){
+    async consultar(termo) {
         let sql = '';
         let parametros = [];
 
@@ -75,7 +57,7 @@ export default class Imoveldb {
 
         let ListaImovel = [];
 
-        for(const resultados of resultado[0]){
+        for (const resultados of resultado[0]) {
             const imovel = new Imovel(
                 resultados.imo_id,
                 resultados.imo_titulo,
