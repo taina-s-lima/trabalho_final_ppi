@@ -6,34 +6,42 @@ export default class ImovelController {
     gravar(req, res) {
         if (req.method === 'POST' && req.is('application/json')) {
 
-            const titulo = req.body.titulo;
-            const tipo = req.body.tipo;
-            const valor = req.body.valor;
-            
+            const imo_titulo = req.body.imo_titulo;
+            const imo_tipo = req.body.imo_tipo;
+            const imo_valor = req.body.imo_valor;
 
-            if (titulo && tipo && valor) {
+            if (imo_titulo && imo_tipo && imo_valor) {
 
-                const imovelModel = new Imovel(0, titulo, tipo, valor);
+                const imovelModel = new Imovel(0, imo_titulo, imo_tipo, imo_valor);
                 imovelModel.gravar(imovelModel).then((result) => {
 
                     res.status(201).json({
-                        "status": true,
-                        "message": "Imovel cadastrado com sucesso",
+                        "status": true, 
+                        "mensagem": "Imóvel cadastrado com sucesso",
                         "id": imovelModel.id
-                    })
+                    });
 
                 }).catch((error) => {
-                    res.status(500).json({ error: 'Erro ao cadastrar imovel', details: error.message });
+                    res.status(500).json({
+                        status: false,
+                        mensagem: 'Erro ao cadastrar imóvel',
+                        detalhes: error.message
+                    });
                 });
             } else {
-                res.status(400).json({ error: 'Dados incompletos' });
+                res.status(400).json({
+                    status: false,
+                    mensagem: 'Todos os campos são obrigatórios'
+                });
             }
 
         } else {
-            res.status(400).json({ error: 'Método não permitido' });
+            res.status(400).json({
+                status: false,
+                mensagem: 'Método não permitido'
+            });
         }
     }
-
     editar(req, res) {
         if ((req.method === 'PUT' || req.method === 'PATCH') && req.is('application/json')) {
             const id = req.params.id;

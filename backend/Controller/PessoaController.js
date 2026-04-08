@@ -6,10 +6,10 @@ export default class PessoaController {
     gravar(req, res) {
         if (req.method === 'POST' && req.is('application/json')) {
 
-            const cpf = req.body.cpf;
-            const nome = req.body.nome;
-            const telefone = req.body.telefone;
-            const email = req.body.email;
+            const cpf = req.body.pes_cpf;
+            const nome = req.body.pes_nome;
+            const telefone = req.body.pes_telefone;
+            const email = req.body.pes_email;
 
             if (cpf && nome && telefone && email) {
 
